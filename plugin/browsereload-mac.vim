@@ -12,7 +12,7 @@
 "
 " forcused application enabled 1:True 0:False
 if !exists('g:returnAppFlag')
-  let g:returnAppFlag = 1
+  let g:returnAppFlag = 0
 endif 
 
 " forcused application name after browser reload
@@ -82,10 +82,13 @@ func! s:Reload(app, ...)
 
     if s:hasVimproc()
         let s:tmpfile = tempname()
-        call writefile([l:execcmd, "rm -fr " . s:tmpfile], s:tmpfile)
+		let martijn = "osascript -e 'tell application \"Google Chrome\" to reload active tab of window 1'"
+        call writefile([martijn, "rm -fr " . s:tmpfile], s:tmpfile)
         call vimproc#pgroup_open("sh " . s:tmpfile)
     else
-        exec "silent !" . l:execcmd
+		"exec "silent !" . l:execcmd
+		let martijn = "osascript -e 'tell application \"Google Chrome\" to reload active tab of window 1'"
+		exec "silent !" . martijn
     endif
 
     " Force redraw the calling VIM window, incase it doesn't restore
